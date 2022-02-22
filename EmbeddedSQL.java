@@ -347,9 +347,22 @@ public class EmbeddedSQL {
    }
 
    public static void Query6(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
-   }//end Query6
+	try{
+                String query =
+                "SELECT DISTINCT S.sname\n" + 
+		"FROM catalog C, suppliers S, parts P\n" + 
+		"WHERE C.sid = S.sid AND P.pid = C.pid AND P.pname = '";
+
+                System.out.print("\tEnter Part Name: ");
+                String input = in.readLine();
+
+                query += input + "';";
+
+         int rowCount = esql.executeQuery(query);
+         System.out.println ("total row(s): " + rowCount);
+      }catch(Exception e){
+         System.err.println (e.getMessage());
+      }
+   }
 
 }//end EmbeddedSQL
