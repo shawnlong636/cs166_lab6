@@ -328,10 +328,23 @@ public class EmbeddedSQL {
    }
 
    public static void Query5(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
-   }//end Query5
+	try{
+         	String query =
+		"SELECT DISTINCT P.pname\n" + 
+		"FROM catalog C, parts P\n" + 
+		"WHERE C.pid = P.pid AND C.cost < ";
+         	
+		System.out.print("\tEnter cost: $");
+		String input = in.readLine();
+        
+		query += input;
+
+         int rowCount = esql.executeQuery(query);
+         System.out.println ("total row(s): " + rowCount);
+      }catch(Exception e){
+         System.err.println (e.getMessage());
+      }
+   }
 
    public static void Query6(EmbeddedSQL esql){
       // Your code goes here.
