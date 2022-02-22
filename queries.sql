@@ -49,9 +49,9 @@ ORDER BY S.sid;
 SELECT S.sid, S.sname, count(C.pid)
 FROM catalog C, suppliers S
 WHERE C.sid = S.sid AND S.sid IN 
-    (SELECT sid
-     FROM catalog C, parts P
-     WHERE C.pid = P.pid AND P.color = 'Green')
+    (SELECT C2.sid
+     FROM catalog C2, parts P2
+     WHERE C2.pid = P2.pid AND P2.color = 'Green')
 GROUP BY S.sid, S.sname
 ORDER BY S.sid;
 
@@ -65,15 +65,30 @@ SELECT S.sname, MAX(C.cost)
 FROM  catalog C, suppliers S
 WHERE C.sid = S.sid AND S.sid IN (
     -- Suppliers with Green Parts
-    (SELECT DISTINCT C.sid
-    FROM catalog C, parts P
-    WHERE C.pid = P.pid AND P.color = 'Green')
+    (SELECT DISTINCT C2.sid
+    FROM catalog C2, parts P2
+    WHERE C2.pid = P2.pid AND P2.color = 'Green')
 
     INTERSECT
 
     -- Suppliers with Red Parts
-    (SELECT C.sid
-    FROM catalog C, parts P
-    WHERE C.pid = P.pid AND P.color = 'Red')
+    (SELECT DISTINCT C3.sid
+    FROM catalog C3, parts P3
+    WHERE C3.pid = P3.pid AND P3.color = 'Red')
 )
 GROUP BY S.sname;
+
+-- Query 5:
+-- Find the name of parts with cost lower than "___"
+
+SELECT DISTINCT P.pname
+FROM catalog C, parts P
+WHERE C.pid = P.pid AND C.cost <= 10;
+
+-- Query 6:
+-- Find the address of the suppliers who supply "___" (pname)
+SELECT Distinct S.sname
+FROM catalog C, suppliers S, parts P
+WHERE C.sid = S.sid AND P.pid = C.pid 
+    AND P.pname = 'Fire Hydrant Cap';
+    
