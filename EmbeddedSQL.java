@@ -249,28 +249,83 @@ public class EmbeddedSQL {
    }//end QueryExample
    
    public static void Query1(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
-   }//end Query1
+	try {
+		String query = "SELECT S.sid, S.sname, count(C.pid) AS partcount "
+		+ "FROM catalog C, suppliers S "
+		+ "WHERE C.sid = S.sid "
+		+ "GROUP BY S.sid, S.sname "
+		+ "ORDER BY S.sid;";
+		int rowCount = esql.executeQuery(query);
+		System.out.println("total row(s): " + rowCount);
 
+   	} catch(Exception e) {
+		System.err.println(e.getMessage());
+	}
+	}
    public static void Query2(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
-   }//end Query2
+	try {
+        	String query =
+		"SELECT S.sid, S.sname, count(C.pid)\n" +
+		"FROM catalog C, suppliers S\n" +
+		"WHERE C.sid = S.sid\n" + 
+		"GROUP BY S.sid, S.sname\n" +
+		"HAVING count(C.pid) >= 3\n" +
+		"ORDER BY S.sid;";
+                
+		int rowCount = esql.executeQuery(query);
+                System.out.println("total row(s): " + rowCount);
+
+        } catch(Exception e) {
+                System.err.println(e.getMessage());
+        }
+        
+   }
 
    public static void Query3(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
-   }//end Query3
+	try {
+                String query =
+		"SELECT S.sid, S.sname, COUNT(C.pid)\n" + 
+		"FROM catalog C, suppliers S\n" + 
+		"WHERE C.sid = S.sid AND S.sid IN\n" + 
+		"	(SELECT sid\n" + 
+		"	 FROM catalog C2, parts P2\n" + 
+		"	 WHERE C2.pid = P2.pid AND P2.color = 'Green')\n" + 
+		"GROUP BY S.sid, S.sname\n" + 
+		"ORDER BY S.sid;";
+
+                int rowCount = esql.executeQuery(query);
+                System.out.println("total row(s): " + rowCount);
+
+        } catch(Exception e) {
+                System.err.println(e.getMessage());
+        }
+   }
 
    public static void Query4(EmbeddedSQL esql){
-      // Your code goes here.
-      // ...
-      // ...
-   }//end Query4
+	try  {
+		String query =
+                "SELECT S.sname, MAX(C.cost)\n" + 
+		"FROM catalog C, suppliers S\n" + 
+		"WHERE C.sid = S.sid AND S.sid IN (\n" + 
+		"	(SELECT DISTINCT C2.sid\n" + 
+		"	 FROM catalog C2, parts P2\n" + 
+		"	 WHERE C2.pid = P2.pid AND P2.color = 'Green')\n" + 
+		"\n" + 
+		"	INTERSECT\n" + 
+		"\n" + 
+		"	(SELECT DISTINCT C3.sid\n" + 
+		"	 FROM catalog C3, parts P3\n" + 
+		"	 WHERE C3.pid = P3.pid AND P3.color = 'Red')\n" + 
+		")\n" + 
+		"GROUP BY S.sname;";		
+
+                int rowCount = esql.executeQuery(query);
+                System.out.println("total row(s): " + rowCount);
+
+        } catch(Exception e) {
+                System.err.println(e.getMessage());
+        }
+   }
 
    public static void Query5(EmbeddedSQL esql){
       // Your code goes here.
