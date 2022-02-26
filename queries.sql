@@ -87,7 +87,7 @@ WHERE C.pid = P.pid AND C.cost <= 10;
 
 -- Query 6:
 -- Find the address of the suppliers who supply "___" (pname)
-SELECT Distinct S.sname
+SELECT Distinct S.address
 FROM catalog C, suppliers S, parts P
 WHERE C.sid = S.sid AND P.pid = C.pid 
     AND P.pname = 'Fire Hydrant Cap';

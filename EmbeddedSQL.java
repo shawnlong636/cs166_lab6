@@ -349,7 +349,7 @@ public class EmbeddedSQL {
    public static void Query6(EmbeddedSQL esql){
 	try{
                 String query =
-                "SELECT DISTINCT S.sname\n" + 
+                "SELECT DISTINCT S.address\n" + 
 		"FROM catalog C, suppliers S, parts P\n" + 
 		"WHERE C.sid = S.sid AND P.pid = C.pid AND P.pname = '";
 
